@@ -3,14 +3,28 @@ title: Functional Programming in Go
 sub_title: Fun with Functions
 author: Brendan Shaklovitz
 theme:
+  name: catppuccin-frappe
   override:
     footer:
       style: template
       right: "{author} - {current_slide} / {total_slides}"
+    headings:
+      h1:
+        prefix: &prefix "⎔"
+      h2:
+        prefix: *prefix
+      h3:
+        prefix: *prefix
+      h4:
+        prefix: *prefix
+      h5:
+        prefix: *prefix
+      h6:
+        prefix: *prefix
 ---
 
 Functional Programming
----
+===
 
 * What is functional programming?
 * Where does the idea come from?
@@ -19,64 +33,69 @@ Functional Programming
 
 <!-- end_slide -->
 
-Functional Programming
----
+OOP vs FP
+===
 
-> a programming paradigm where functions play the main role
-
+* OOP: Object-Oriented Programming
+  * a collection of objects, interacting through functions that change object
+    state
+  * focus on modularity and encapsulation
+  * a set of objects: nouns > verbs
 <!-- pause -->
+---
+* FP: Functional Programming
+  * a model where you achieve results through a series of function evaluations
+  * a set of actions: verbs > nouns
 
 ![](assets/i-should-learn-cat.jpg)
 
 <!-- end_slide -->
 
-Programs in FP
----
-
-* Composed of functions, chained together to perform complex tasks.
-* Functions tend to be small and modular.
-
-<!-- end_slide -->
-
-Programs in OOP
----
-
-* Objects play the main role.
-* Functions play a part, but are usually used to change the state of an object.
-
-<!-- end_slide -->
-
-On "purity"
----
+Pure Functions
+===
 
 A subset of FP, with these restrictions:
 * A function cannot mutate the state of the system.
 * A function cannot produce any side effects.
 
-<!-- pause -->
-Benefits:
-* Given the same set of inputs, a pure function will always produce the same
-  output.
+<!-- end_slide -->
+
+Benefits of FP
+===
+
+![](assets/benefits.png)
+* deterministic: same input -> same output
+  * easier to reason about and test
+* not relying on or mutating state -> easier concurrency
+  * running the same pure function concurrently cannot impact the results of
+    another function
+
+<!-- end_slide -->
+
+<!-- jump_to_middle -->
+Where does FP come from?
+===
 
 <!-- end_slide -->
 
 Roots - Lambda Calculus
----
+===
 
 * Invented in 1930s by Alonzo Church
 * Expresses computation based on function abstraction and application using
-  variable binding and substitution.
+  variable binding and substitution
+* Universal model of computation
 * `(λx.x)a = a`
 * `(λx.y)a = y`
 
 <!-- end_slide -->
 
 Roots - Lisp
----
+===
 
 * 1950s: John McCarthy
 * Introduced recursion, first-class functions, garbage collection, conditional
-  statements.
+  statements
 
 ```lisp
 (defun list-member (E L)
@@ -90,20 +109,21 @@ Roots - Lisp
 <!-- end_slide -->
 
 Roots - APL
----
+===
 
 * 1960s: Kenneth E. Iverson.
-* Array-ooriented, mathematically structured.
-* Calculate arithmetic mean of a list of numbers: `{(+⌿⍵)÷≢⍵}`
+* Array-oriented, mathematically structured.
+* Example:
+  * Calculate arithmetic mean of a list of numbers: `{(+⌿⍵)÷≢⍵}`
 
 <!-- end_slide -->
 
 Roots - ML
----
+===
 
 * 1973: Robin Milner.
 * Introduced "polymorphic Hindley-Milner type system" (automatic type
-  inference), function currying, and pattern matching.
+  inference), function currying, and pattern matching
 * Reverse a list:
 
 ```ml
@@ -114,10 +134,10 @@ fun reverse [] = []
 <!-- end_slide -->
 
 Roots - Scheme
----
+===
 
 * 1975: Gerald Jay Sussman, Guy L. Steele Jr.
-* A dialect of Lisp that used lexical scoping and tail-call optimization.
+* A dialect of Lisp that used lexical scoping and tail-call optimization
 
 ```scheme
 > (define (square x)
@@ -126,21 +146,23 @@ Roots - Scheme
 25
 ```
 
+![image:width:50%](assets/xkcd-functional.png "XKCD 1275")
+
 <!-- end_slide -->
 
 Roots - FP
----
+===
 
-* 1977: John Backus.
-* "Point Free" programming: avoiding named variables.
-* Inspired research in other languages.
+* 1977: John Backus
+* "Point Free" programming: avoiding named variables
+* Inspired research in other languages
 
 <!-- end_slide -->
 
 Roots - Miranda
----
-* 1985: Miranda: David Turner.
-* Introduced lazy evaluation.
+===
+* 1985: Miranda: David Turner
+* Introduced lazy evaluation
 
 ```miranda
 squares = [ n * n | n <- [1..] ]
@@ -149,10 +171,10 @@ squares = [ n * n | n <- [1..] ]
 <!-- end_slide -->
 
 Roots - Haskell
----
+===
 
-* 1990: Lennart Augustsson, Dave Barton, Brian Boutel, Warren Burton, Joseph Fasel, Kevin Hammond, Ralf Hinze, Paul Hudak, John Hughes, Thomas Johnsson, Mark Jones, Simon Peyton Jones, John Launchbury, Erik Meijer, John Peterson, Alastair Reid, Colin Runciman, Philip Wadler.
-* Statically typed FP language, with type inference (ML), lazy evaluation (Miranda).
+* 1990: Lennart Augustsson, Dave Barton, Brian Boutel, Warren Burton, Joseph Fasel, Kevin Hammond, Ralf Hinze, Paul Hudak, John Hughes, Thomas Johnsson, Mark Jones, Simon Peyton Jones, John Launchbury, Erik Meijer, John Peterson, Alastair Reid, Colin Runciman, Philip Wadler
+* Statically typed FP language, with type inference (ML), lazy evaluation (Miranda)
 
 ```haskell
 -- Using recursion (with guards)
@@ -161,11 +183,16 @@ factorial n
    | otherwise = n * factorial (n - 1)
 ```
 
+<!-- pause -->
+
+![image:width:50%](assets/xkcd-haskell.png "XKCD 1312")
+
+
 <!-- end_slide -->
 
 Roots - F#
----
-* 2005: Don Syme. Microsoft's .NET language, based on OCaml.
+===
+* 2005: Don Syme. Microsoft's .NET language, based on OCaml
 
 ```f#
  seq { for b in 0 .. 25 do
@@ -177,7 +204,7 @@ Roots - F#
 
 
 OO languages and FP: Java
----
+===
 
 * pattern matching
 * higher order functions
@@ -186,11 +213,11 @@ OO languages and FP: Java
 <!-- end_slide -->
 
 OO languages and FP: C# - inspired by F#
----
+===
 
 * pattern matching
 * immutability
-* built-in tuple support.
+* built-in tuple support
 
 ```java
 static void test(Object obj) {
@@ -205,7 +232,7 @@ static void test(Object obj) {
 <!-- end_slide -->
 
 OO languages and FP: JS
----
+===
 
 * first-class functions
 * anonymous functions
@@ -227,36 +254,8 @@ console.log(add10(2)); // 12
 
 <!-- end_slide -->
 
-Benefits of FP
----
-
-![](assets/benefits.png)
-
-<!-- end_slide -->
-
-Benefits of FP
----
-
-* deterministic: same input -> same output
-  * easier to reason about and test
-* not relying on or mutating state -> easier concurrency
-  * runing the same pure function concurrently cannot impact the results of
-    another function.
-
-<!-- end_slide -->
-
-When *not* to use FP
----
-
-* For performance / memory, it may be necessary to work with pointers.
-* In theory, all loops can be replaced by recursion. In practice, this can lead
-  to stack overflow errors if the language you're using does not do tail-call
-  optimization.
-
-<!-- end_slide -->
-
 Go and FP
----
+===
 
 What is has:
 * functions as first-class citizens
@@ -274,7 +273,7 @@ What it doesn't have:
 <!-- end_slide -->
 
 First-class functions
----
+===
 
 * Can be passed as arguments to other functions.
 * Can be returned as values from other functions.
@@ -283,7 +282,7 @@ First-class functions
 <!-- end_slide -->
 
 Higher-order Function
----
+===
 
 Any function that either:
 * takes a function as an argument.
@@ -292,14 +291,14 @@ Any function that either:
 <!-- end_slide -->
 
 Passing functions as arguments
----
+===
 
 ![](assets/morpheus.png)
 
 <!-- end_slide -->
 
 Passing functions as arguments
----
+===
 
 ```go +line_numbers {7-13|15-21|23-29}
 package main
@@ -340,7 +339,7 @@ go run ./cmd/basics/passfunction
 <!-- end_slide -->
 
 Returning functions and assigning as values
----
+===
 
 ```go +line_numbers {7-15|17-27}
 package main
@@ -380,7 +379,7 @@ go run ./cmd/basics/funcasvalue
 
 
 Function type alias
----
+===
 
 ```go +line_numbers {}
 type ServerOptions struct {
@@ -427,7 +426,7 @@ func main() {
 <!-- end_slide -->
 
 Function type alias based on real usage
----
+===
 
 ```go +line_numbers {1|3-20|22-28}
 type EnvironmentFilter func(string) bool
@@ -463,10 +462,9 @@ func NonProdEnvFilter(env string) bool {
 <!-- end_slide -->
 
 Function type alias based on real usage (continued)
----
+===
 
 ```go +line_numbers
-
 func main() {
     environments := []string{
         "prod1", "prod2", "PROD3", "staging", "dev", "local",
@@ -487,7 +485,7 @@ go run ./cmd/basics/typealias
 <!-- end_slide -->
 
 Variable scoping in Go
----
+===
 
 Lexical scoping: a variable is identified and usable within the context where
 it was created.
@@ -511,7 +509,7 @@ go run ./cmd/lexicalscoping/q0
 <!-- end_slide -->
 
 Scoping
----
+===
 
 ```go
 // Q1: What would be printed?
@@ -543,7 +541,7 @@ golangci-lint run \
 <!-- end_slide -->
 
 Closures
----
+===
 
 Any inner function that uses a variable introduced in the outer function.
 
@@ -578,7 +576,7 @@ go run ./cmd/closure
 <!-- end_slide -->
 
 Partial application
----
+===
 
 Taking a function that takes N arguments and "fixing" a subset of the
 arguments.
@@ -613,7 +611,7 @@ go run ./cmd/partialapplication
 <!-- end_slide -->
 
 Safer concurrency
----
+===
 
 What does this program output?
 
@@ -646,7 +644,7 @@ func main() {
 <!-- end_slide -->
 
 Let's find out
----
+===
 
 ```sh +exec
 for i in $(seq 1 10) ; do
@@ -664,14 +662,14 @@ Why? The function is impure, as it has the *side effect* of mutating the slice.
 <!-- end_slide -->
 
 Side effects
----
+===
 
 ![](assets/side-effects.png)
 
 <!-- end_slide -->
 
 On side effects and type signatures
----
+===
 
 ```go
 type Person struct {
@@ -702,7 +700,7 @@ Answer: Penelope.
 <!-- end_slide -->
 
 On side effects and type signatures (cont.)
----
+===
 
 ```go
 func SetName(p *Person, name string) {
@@ -727,7 +725,7 @@ Answer: Penny
 <!-- end_slide -->
 
 Now with "immutable" structs
----
+===
 
 ```go
 func SetName(p Person, name string) Person {
@@ -751,7 +749,7 @@ func main() {
 <!-- end_slide -->
 
 Maps & pass-by-reference
----
+===
 
 ```go
 func addMapValue(m map[string]int, key string, value int) {
@@ -776,7 +774,7 @@ Answer:
 <!-- end_slide -->
 
 Slice semantics
----
+===
 
 ```go
 func AddToSliceNoPointer(s []string, value string) {
@@ -807,13 +805,24 @@ Answer:
 ```
 original: [F#]
 add - no pointer: [F#]
-add - pointer: [F# Go]
+add - pointer: [FGo]
+===
 ```
 
 <!-- end_slide -->
 
+When *not* to use FP
+===
+
+* For performance / memory, it may be necessary to work with pointers.
+* In theory, all loops can be replaced by recursion. In practice, this can lead
+  to stack overflow errors if the language you're using does not do tail-call
+  optimization.
+
+<!-- end_slide -->
+
 Performance Quiz
----
+===
 
 ```go
 type Person struct {
@@ -858,7 +867,7 @@ func SetName(p *Person, name string) {
 <!-- end_slide -->
 
 Performance Quiz (cont.)
----
+===
 
 ```go
 func BenchmarkImmutableCreatePerson(b *testing.B) {
@@ -883,7 +892,7 @@ go test -bench=. ./cmd/person -benchtime=100000000x
 <!--end_slide -->
 
 Recursion
----
+===
 
 *When a function calls itself*
 
@@ -914,7 +923,7 @@ go run ./cmd/recursion/factorial
 <!--end_slide -->
 
 Recursion: Stack Overflow
----
+===
 
 ```go
 package main
@@ -955,7 +964,7 @@ func main() {
 <!--end_slide -->
 
 Recursion: Stack Overflow (cont.)
----
+===
 
 ```sh +exec
 go run ./cmd/recursion/overflow 2>&1 | head -n 20
@@ -970,7 +979,7 @@ go run ./cmd/recursion/overflow -stack-size 10000000000
 <!--end_slide -->
 
 Filter
----
+===
 
 ```go
 func Filter[T any](originalSlice []T, f func(T) bool) []T {
@@ -1014,7 +1023,7 @@ go run ./cmd/filter
 <!--end_slide -->
 
 Map
----
+===
 
 ```go
 func Map[A, B any](s []A, f func(A) B) []B {
@@ -1051,14 +1060,14 @@ go run ./cmd/map
 <!--end_slide -->
 
 Map
----
+===
 
 ![](assets/butterfly-map-fp.webp)
 
 <!--end_slide -->
 
 Any and All
----
+===
 
 ```go
 func Any[T any](s []T, f func(T) bool) bool {
@@ -1098,7 +1107,7 @@ go run ./cmd/any
 <!--end_slide -->
 
 Reduce
----
+===
 
 ```go
 type ReduceFunc[A any] func(a1, a2 A) A
@@ -1139,7 +1148,7 @@ go run ./cmd/reduce
 <!--end_slide -->
 
 Using functions to make testing easier
----
+===
 
 ```go
 type AuditLog struct {
@@ -1173,6 +1182,6 @@ func TestGetLogWithTime(t *testing.T) {
 <!-- end_slide -->
 
 Fin
----
+===
 
 ![](assets/sponge-fp.jpg)
